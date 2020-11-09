@@ -6,7 +6,7 @@ exec ros -Q -- $0 "$@"
 (progn ;;init forms
   (ros:ensure-asdf)
   #+quicklisp
-  (ql:quickload '(log4cl staple-markdown)
+  (ql:quickload '(log4cl)
                 :silent t))
 
 (defpackage :script.build-docs
@@ -57,9 +57,14 @@ behaviour could be overriden by keyword argument ``:raise t``."
 (defun build-docs ()
   (log:info "Building documentation in ./docs/")
 
-  (staple:generate :example
-                   :if-exists :supersede
-                   :output-directory #P"docs/build/")
+  ;; (staple:generate :example :if-exists :supersede :output-directory #P"docs/build/")
+
+  (uiop:run-program
+   (list "qlot" "exec" "ros"
+         "--eval" "(ql:quickload :staple-markdown)"
+         "--eval" "(staple:generate :example :if-exists :supersede :output-directory #P\"docs/build/\")"
+         "--eval" "(uiop:quit)")
+   )
   
   (uiop:with-output-file (s "docs/build/.nojekyll" :if-exists :overwrite)
     (declare (ignorable s))))
