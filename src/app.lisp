@@ -1,9 +1,9 @@
 (defpackage #:example/app
   (:use #:cl)
   (:import-from #:example/utils)
-  (:documentation "This is docstring for the package.
+  (:documentation "A docstring for the package.
 
-The package contains a function which does it's job by
+This package contains a function which does it's job by
 applying transformation to the first and second arguments.
 
 CLDomain is not support these docstrings yet.

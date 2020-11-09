@@ -57,14 +57,13 @@ behaviour could be overriden by keyword argument ``:raise t``."
 (defun build-docs ()
   (log:info "Building documentation in ./docs/")
 
-  ;; (staple:generate :example :if-exists :supersede :output-directory #P"docs/build/")
-
+  ;; If I run Staple in the same process it fails
+  ;; when running as a GitHub Action :(
   (uiop:run-program
    (list "qlot" "exec" "ros"
          "--eval" "(ql:quickload :staple-markdown)"
          "--eval" "(staple:generate :example :if-exists :supersede :output-directory #P\"docs/build/\")"
-         "--eval" "(uiop:quit)")
-   )
+         "--eval" "(uiop:quit)"))
   
   (uiop:with-output-file (s "docs/build/.nojekyll" :if-exists :overwrite)
     (declare (ignorable s))))
