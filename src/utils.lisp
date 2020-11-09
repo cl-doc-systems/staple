@@ -20,9 +20,13 @@ On this multiline we'll check how does documentation
 system processes docstrings.
 
 By the way, pay attention at the second paragraph where
-I've used `reStructured text <https://www.sphinx-doc.org/en/master/usage/restructuredtext/>`_
+I've used [Markdown](https://ru.wikipedia.org/wiki/Markdown)
 format to make the word \"concatenates\" bold.
 
-Also, we can reference some parts of the documentation.
-Read more about cross referencing in the :ref:`Handwritten documentation` chapter."
+We only can reference other symbols this way:
+
+See EXAMPLE/APP:FOO
+
+But Staple's documentation says that custom xref processors
+can be written."
   (concat first second))

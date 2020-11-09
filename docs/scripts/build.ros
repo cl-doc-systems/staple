@@ -6,7 +6,7 @@ exec ros -Q -- $0 "$@"
 (progn ;;init forms
   (ros:ensure-asdf)
   #+quicklisp
-  (ql:quickload '(log4cl coo)
+  (ql:quickload '(log4cl staple-markdown)
                 :silent t))
 
 (defpackage :script.build-docs
@@ -29,8 +29,8 @@ exec ros -Q -- $0 "$@"
                      (uiop:subprocess-error-process condition)
                      (uiop:subprocess-error-command condition)
                      (uiop:subprocess-error-code condition)
-                     (subprocess-error-stderr condition))
-             )))
+                     (subprocess-error-stderr condition)))))
+
 
 (defun run (command &key (raise t))
   "Runs command and returns it's stdout stderr and code.
@@ -57,11 +57,9 @@ behaviour could be overriden by keyword argument ``:raise t``."
 (defun build-docs ()
   (log:info "Building documentation in ./docs/")
 
-  ;; To make pages for symbols from docutils
-  ;; we'll generate docs for it first
-  (coo:document-system "docutils" :base-path "docs/build/")
-  ;; and then for our example, to overwrite the index.html
-  (coo:document-system "example" :base-path "docs/build/")
+  (staple:generate :example
+                   :if-exists :supersede
+                   s:output-directory #P"docs/build/")
   
   (uiop:with-output-file (s "docs/build/.nojekyll" :if-exists :overwrite)
     (declare (ignorable s))))
