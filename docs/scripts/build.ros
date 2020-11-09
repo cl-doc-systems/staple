@@ -59,7 +59,7 @@ behaviour could be overriden by keyword argument ``:raise t``."
 
   (staple:generate :example
                    :if-exists :supersede
-                   s:output-directory #P"docs/build/")
+                   :output-directory #P"docs/build/")
   
   (uiop:with-output-file (s "docs/build/.nojekyll" :if-exists :overwrite)
     (declare (ignorable s))))
